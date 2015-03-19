@@ -23,7 +23,7 @@ public class Customer {
         this.secondName = dbObject.getString("second_name");
         this.email = dbObject.getString("email");
         this.phone = dbObject.getString("phone");
-        this.createdOn = dbObject.getDate("createdOn");
+        this.createdOn = dbObject.getDate("created_on");
     }
 
     public String getSecondName() {

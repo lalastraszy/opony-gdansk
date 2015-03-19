@@ -1,29 +1,39 @@
-<h2>All Todos <a class="btn btn-primary pull-right" href="#/create"><i
-        class="icon-plus-sign icon-white"></i> New Todo</a></h2>
+<h2>Klienci <a class="btn btn-primary pull-right" href="#/create"><i
+        class="icon-plus-sign icon-white"></i> Stwórz nowego klienta</a></h2>
 
 <table class="table table-hover">
     <tr>
         <th>
-            #
+            Imię
         </th>
         <th>
-            Title
+            Nazwisko
         </th>
         <th>
-            Created On
+            E-mail
         </th>
-        <th>Done</th>
+        <th>
+            Numer telefonu
+        </th>
+        <th>
+            Data utworzenia
+        </th>
     </tr>
-    <tr class="success-{{todo.done}}" ng-repeat="todo in todos">
-        <td>{{$index+1}}</td>
+    <tr ng-repeat="customer in customers">
         <td>
-            {{todo.title}}
+            {{customer.firstName}}
         </td>
         <td>
-            {{todo.createdOn |date:'medium'}}
+            {{customer.secondName}}
         </td>
         <td>
-            <input type="checkbox" ng-change="todoStatusChanged(todo)" ng-value="todo.done" ng-model="todo.done">
+            {{customer.email}}
+        </td>
+        <td>
+            {{customer.phone}}
+        </td>
+        <td>
+            {{customer.createdOn |date:'medium'}}
         </td>
     </tr>
 </table>

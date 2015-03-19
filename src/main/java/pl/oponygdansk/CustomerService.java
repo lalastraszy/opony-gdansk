@@ -33,11 +33,11 @@ public class CustomerService {
 
     public void createCustomer(String body){
         Customer customer = new Gson().fromJson(body, Customer.class);
-        collection.insert(new BasicDBObject("firstName", customer.getFirstName()).
-                append("secondName", customer.getSecondName()).
+        collection.insert(new BasicDBObject("first_name", customer.getFirstName()).
+                append("second_name", customer.getSecondName()).
                 append("email", customer.getEmail()).
                 append("phone", customer.getPhone()).
-                append("createdOn", new Date()));
+                append("created_on", new Date()));
     }
 
     public Customer find(String id){

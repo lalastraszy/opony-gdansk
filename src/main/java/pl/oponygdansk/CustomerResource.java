@@ -37,5 +37,6 @@ public class CustomerResource {
 
         get(API_CONTEXT + "customers", "application/json", (request, response) ->
         customerService.findAll(), new JsonTransformer());
+
     }
 }

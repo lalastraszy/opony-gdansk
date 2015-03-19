@@ -20,7 +20,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.todoapp.Bootstrap</mainClass>
+                  <mainClass>pl.oponygdansk.Bootstrap</mainClass>
                 </transformer>
               </transformers>
             </configuration>
