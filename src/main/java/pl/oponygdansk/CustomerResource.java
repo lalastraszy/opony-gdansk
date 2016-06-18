@@ -1,15 +1,8 @@
 package pl.oponygdansk;
 
-import com.google.gson.Gson;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-
-import java.util.HashMap;
-
 import static spark.Spark.get;
 import static spark.Spark.post;
-import static spark.Spark.put;
+import static spark.Spark.delete;
 
 /**
  * Created by lalastraszy on 2014-12-23.
@@ -32,11 +25,21 @@ public class CustomerResource {
             return response;
         }, new JsonTransformer());
 
-        get(API_CONTEXT + "customers/:id", "application/json", (request, response) ->
+        get(API_CONTEXT + "/customers/:id", "application/json", (request, response) ->
             customerService.find(request.params(":id")), new JsonTransformer());
 
-        get(API_CONTEXT + "customers", "application/json", (request, response) ->
-        customerService.findAll(), new JsonTransformer());
+        get(API_CONTEXT + "/customers", "application/json", (request, response) ->
+            customerService.findAll(), new JsonTransformer());
 
+        delete(API_CONTEXT + "/customers/:id", "application/json", (request, response) -> {
+            String id = request.params(":id");
+            if (customerService.find(id) == null) {
+                response.status(404);
+                return "NOT_FOUND";
+            } else {
+                customerService.remove(id);
+                return "CUSTOMER DELETED";
+            }
+        }, new JsonTransformer());
     }
 }

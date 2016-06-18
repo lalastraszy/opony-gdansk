@@ -5,7 +5,6 @@ import com.mongodb.*;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,7 +36,8 @@ public class CustomerService {
                 append("second_name", customer.getSecondName()).
                 append("email", customer.getEmail()).
                 append("phone", customer.getPhone()).
-                append("created_on", new Date()));
+                append("business", customer.getBusiness()).
+                append("sex", customer.getSex()));
     }
 
     public Customer find(String id){
@@ -49,6 +49,10 @@ public class CustomerService {
 /*        collection.update(new BasicDBObject("_id", new ObjectId(todoId)), new BasicDBObject("$set", new BasicDBObject("done", todo.isDone())));
         return this.find(todoId);*/
         return null;
+    }
+
+    public void remove(String id){
+        collection.remove(new BasicDBObject().append("_id", new ObjectId(id)));
     }
 
 }

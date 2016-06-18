@@ -1,7 +1,3 @@
-/**
- * Created by shekhargulati on 10/06/14.
- */
-
 var app = angular.module('oponygdanksapp', [
     'ngCookies',
     'ngResource',
@@ -11,40 +7,62 @@ var app = angular.module('oponygdanksapp', [
 
 app.config(function ($routeProvider) {
     $routeProvider.when('/', {
-        templateUrl: 'views/list.html',
+        templateUrl: 'views/customer/list.html',
+        resolve: {
+            customers: function(Customer) {
+                return Customer.query().$promise.then(function(data){
+                    return data;
+                });
+            }
+        },
         controller: 'ListCtrl'
     }).when('/create', {
-        templateUrl: 'views/create.html',
+        templateUrl: 'views/customer/create.html',
         controller: 'CreateCtrl'
     }).otherwise({
         redirectTo: '/'
     })
 });
 
-app.controller('ListCtrl', function ($scope, $http) {
-    $http.get('/api/v1/customers').success(function (data) {
-        $scope.customers = data;
-    }).error(function (data, status) {
-        console.log('Error ' + data)
-    })
+app.controller('ListCtrl', ['$scope', 'Customer', 'customers', function ($scope, Customer, customers) {
 
-/*    $scope.cusomerStatusChanged = function (customer) {
-        console.log(customer);
-        $http.put('/api/v1/customers/' + customer.id, customer).success(function (data) {
-            console.log('status changed');
-        }).error(function (data, status) {
-            console.log('Error ' + data)
-        })
-    }*/
-});
+    $scope.customers = customers;
+    $scope.selectedIndex = -1;
 
-app.controller('CreateCtrl', function ($scope, $http, $location) {
-    $scope.createCustomer = function () {
-        console.log($scope.customer);
-        $http.post('/api/v1/customers', $scope.customer).success(function (data) {
-            $location.path('/');
-        }).error(function (data, status) {
-            console.log('Error ' + data)
+    $scope.select= function(i) {
+        $scope.selectedIndex = i;
+    };
+
+    $scope.isCustomerSelected = function() {
+        return $scope.selectedIndex < 0;
+    };
+
+    $('#listTable').on('click', '.clickable-row', function() {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    $scope.removeCustomer = function(idx) {
+        var customer = $scope.customers[idx];
+        Customer.remove({'id': customer.id}, function() {
+            $scope.customers.splice(idx, 1);
+            $scope.selectedIndex = -1;
         })
     }
-});
+
+}]);
+
+app.controller('CreateCtrl', ['$scope', '$location', 'Customer', function ($scope, $location, Customer) {
+    
+    $scope.customer = new Customer();
+    $scope.customer.sex = 'male';
+
+    $scope.createCustomer = function() {
+        Customer.save($scope.customer, function() {
+            $location.path('/');
+        });
+    }
+}]);
+
+app.factory('Customer', ["$resource", function($resource) {
+    return $resource('/api/v1/customers/:id', {id: '@id'}, {});
+}]);

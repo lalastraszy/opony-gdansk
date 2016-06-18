@@ -15,6 +15,8 @@ public class Customer {
     private String secondName;
     private String email;
     private String phone;
+    private String business;
+    private String sex;
     private Date createdOn = new Date();
 
     public Customer(BasicDBObject dbObject){
@@ -23,6 +25,8 @@ public class Customer {
         this.secondName = dbObject.getString("second_name");
         this.email = dbObject.getString("email");
         this.phone = dbObject.getString("phone");
+        this.business = dbObject.getString("business");
+        this.sex = dbObject.getString("sex");
         this.createdOn = dbObject.getDate("created_on");
     }
 
@@ -57,6 +61,14 @@ public class Customer {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
+    public String getBusiness() { return business; }
+
+    public void setBusiness(String business) { this.business = business; }
+
+    public String getSex() { return sex; }
+
+    public void setSex(String sex) { this.sex = sex; }
 
     public Date getCreatedOn() {
         return createdOn;

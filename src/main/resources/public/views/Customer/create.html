@@ -1,0 +1,38 @@
+<div class="container">
+    <form class="well input-form" name="inputform" ng-submit="createCustomer()">
+        <div class="form-group has-feedback" ng-class="{'has-success': inputform.firstName.$dirty && inputform.firstName.$valid, 'has-error': inputform.firstName.$dirty && inputform.firstName.$invalid}">
+            <label class="control-label" for="firstName">Imię</label>
+            <input type="text" class="form-control" name="firstName" id="firstName" ng-model="customer.firstName">
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-success': inputform.secondName.$dirty && inputform.secondName.$valid, 'has-error': inputform.secondName.$dirty && inputform.secondName.$invalid}">
+            <label class="control-label" for="secondName">Nazwisko</label>
+            <input type="text" class="form-control" name="secondName" id="secondName" ng-model="customer.secondName" required>
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-success': inputform.email.$dirty && inputform.email.$valid, 'has-error': inputform.email.$dirty && inputform.email.$invalid}">
+            <label class="control-label" for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" ng-model="customer.email">
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-success': inputform.phone.$dirty && inputform.phone.$valid, 'has-error': inputform.phone.$dirty && inputform.phone.$invalid}">
+            <label class="control-label" for="phone">Numer telefonu</label>
+            <input type="number" require ng-pattern="/^\d{0,9}(\.\d{1,9})?$/" class="form-control" name="phone" id="phone" ng-model="customer.phone" required>
+        </div>
+        <div class="form-group has-feedback" ng-class="{'has-success': inputform.business.$dirty && inputform.business.$valid, 'has-error': inputform.business.$dirty && inputform.business.$invalid}">
+            <label class="control-label" for="business">Firma</label>
+            <input type="text" class="form-control" name="business" id="business" ng-model="customer.business">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Płeć</label>
+            <div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default" ng-class="{'active': customer.sex == 'male'}">
+                        <input type="radio" name="sex" value="male" ng-model="customer.sex" /> Mężczyzna
+                    </label>
+                    <label class="btn btn-default" ng-class="{'active': customer.sex == 'female'}">
+                        <input type="radio" name="sex" value="female" ng-model="customer.sex" /> Kobieta
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" ng-disabled="inputform.$invalid || inputform.$pristine">Zapisz</button>
+    </form>
+</div>
