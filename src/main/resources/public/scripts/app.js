@@ -15,22 +15,29 @@ app.config(function ($routeProvider) {
                 });
             }
         },
-        controller: 'ListCtrl'
-    }).when('/create', {
+        controller: 'CustomerListCtrl'
+    }).when('/createCustomer', {
         templateUrl: 'views/customer/create.html',
-        controller: 'CreateCtrl'
+        controller: 'CustomerCreateCtrl'
+    }).when('/createForm/:customerId', {
+        templateUrl: 'views/form/create.html',
+        controller: 'FormCreateCtrl'
     }).otherwise({
         redirectTo: '/'
     })
 });
 
-app.controller('ListCtrl', ['$scope', 'Customer', 'customers', function ($scope, Customer, customers) {
+
+/* Customer */
+app.controller('CustomerListCtrl', ['$scope', 'Customer', 'customers', 'Form', function ($scope, Customer, customers, Form) {
 
     $scope.customers = customers;
     $scope.selectedIndex = -1;
 
     $scope.select= function(i) {
         $scope.selectedIndex = i;
+        $scope.getCustomersForms($scope.selectedIndex)
+
     };
 
     $scope.isCustomerSelected = function() {
@@ -47,11 +54,18 @@ app.controller('ListCtrl', ['$scope', 'Customer', 'customers', function ($scope,
             $scope.customers.splice(idx, 1);
             $scope.selectedIndex = -1;
         })
+    };
+
+    $scope.getCustomersForms = function(idx) {
+        var customer = $scope.customers[idx];
+        Form.get({'customerId': customer.id}, function() {
+
+        })
     }
 
 }]);
 
-app.controller('CreateCtrl', ['$scope', '$location', 'Customer', function ($scope, $location, Customer) {
+app.controller('CustomerCreateCtrl', ['$scope', '$location', 'Customer', function ($scope, $location, Customer) {
     
     $scope.customer = new Customer();
     $scope.customer.sex = 'male';
@@ -65,4 +79,22 @@ app.controller('CreateCtrl', ['$scope', '$location', 'Customer', function ($scop
 
 app.factory('Customer', ["$resource", function($resource) {
     return $resource('/api/v1/customers/:id', {id: '@id'}, {});
+}]);
+
+/* Form */
+app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', function ($scope, $routeParams, $location, Form) {
+
+    $scope.form = new Form();
+    $scope.form.balancing = false;
+    $scope.form.customerId = $routeParams.customerId;
+
+    $scope.createForm = function() {
+        Form.save($scope.form, function() {
+            $location.path('/');
+        });
+    }
+}]);
+
+app.factory('Form', ["$resource", function($resource) {
+    return $resource('/api/v1/forms/:id', {id: '@id'}, {});
 }]);

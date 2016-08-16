@@ -1,10 +1,11 @@
-package pl.oponygdansk;
+package pl.oponygdansk.Customer;
 
 import com.google.gson.Gson;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,28 +31,29 @@ public class CustomerService {
         return customers;
     }
 
-    public void createCustomer(String body){
+    public void createCustomer(String body) {
         Customer customer = new Gson().fromJson(body, Customer.class);
-        collection.insert(new BasicDBObject("first_name", customer.getFirstName()).
-                append("second_name", customer.getSecondName()).
+        collection.insert(new BasicDBObject("firstName", customer.getFirstName()).
+                append("secondName", customer.getSecondName()).
                 append("email", customer.getEmail()).
                 append("phone", customer.getPhone()).
                 append("business", customer.getBusiness()).
-                append("sex", customer.getSex()));
+                append("sex", customer.getSex()).
+                append("createOn", new Date()));
     }
 
-    public Customer find(String id){
+    public Customer find(String id) {
         return new Customer((BasicDBObject) collection.findOne(new BasicDBObject("_id", new ObjectId(id))));
     }
 
-    public Customer update(String id, String body){
+    public Customer update(String id, String body) {
         Customer customer = new Gson().fromJson(body, Customer.class);
 /*        collection.update(new BasicDBObject("_id", new ObjectId(todoId)), new BasicDBObject("$set", new BasicDBObject("done", todo.isDone())));
         return this.find(todoId);*/
         return null;
     }
 
-    public void remove(String id){
+    public void remove(String id) {
         collection.remove(new BasicDBObject().append("_id", new ObjectId(id)));
     }
 

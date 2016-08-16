@@ -1,4 +1,4 @@
-package pl.oponygdansk;
+package pl.oponygdansk.Customer;
 
 import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
@@ -17,17 +17,17 @@ public class Customer {
     private String phone;
     private String business;
     private String sex;
-    private Date createdOn = new Date();
+    private Date createdOn;
 
     public Customer(BasicDBObject dbObject){
         this.id = ((ObjectId) dbObject.get("_id")).toString();
-        this.firstName = dbObject.getString("first_name");
-        this.secondName = dbObject.getString("second_name");
+        this.firstName = dbObject.getString("firstName");
+        this.secondName = dbObject.getString("secondName");
         this.email = dbObject.getString("email");
         this.phone = dbObject.getString("phone");
         this.business = dbObject.getString("business");
         this.sex = dbObject.getString("sex");
-        this.createdOn = dbObject.getDate("created_on");
+        this.createdOn = dbObject.getDate("createdOn");
     }
 
     public String getSecondName() {

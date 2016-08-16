@@ -1,6 +1,10 @@
 package pl.oponygdansk;
 
 import com.mongodb.*;
+import pl.oponygdansk.Customer.CustomerResource;
+import pl.oponygdansk.Customer.CustomerService;
+import pl.oponygdansk.Form.FormResource;
+import pl.oponygdansk.Form.FormService;
 
 import static spark.Spark.setIpAddress;
 import static spark.Spark.setPort;
@@ -18,7 +22,9 @@ public class Bootstrap {
         setIpAddress(IP_ADDRESS);
         setPort(PORT);
         staticFileLocation("/public");
-        new CustomerResource(new CustomerService(mongo()));
+        DB mongo = mongo();
+        new FormResource(new FormService(mongo));
+        new CustomerResource(new CustomerService(mongo));
     }
 
     private static DB mongo() throws Exception {

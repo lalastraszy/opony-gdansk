@@ -1,7 +1,9 @@
-package pl.oponygdansk;
+package pl.oponygdansk.Customer;
+
+import pl.oponygdansk.JsonTransformer;
+import spark.Spark;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
 import static spark.Spark.delete;
 
 /**
@@ -19,7 +21,7 @@ public class CustomerResource {
     }
 
     private void setupEndpoint() {
-        post(API_CONTEXT + "/customers", "application/json", (request, response) -> {
+        Spark.post(API_CONTEXT + "/customers", "application/json", (request, response) -> {
             customerService.createCustomer(request.body());
             response.status(201);
             return response;
