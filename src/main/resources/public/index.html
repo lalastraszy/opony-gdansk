@@ -3,35 +3,41 @@
 <head>
     <title>Wulkanizacja</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="/bootstrap/css/select2.min.css" />
+    <!--<link rel="stylesheet" href="/bootstrap/css/ui-bootstrap-2.5.0-csp.css" />-->
     <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
-<div class="navbar navbar-inverse">
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="/">Wulkanizacja</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/forms"><span class="glyphicon glyphicon-tasks"></span> Depozyt Opon</a></li>
+                <li><a href="#/customers"><span class="glyphicon glyphicon-user"></span> Klienci</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Ustawienia</a></li>
+            </ul>
         </div>
     </div>
 </div>
 
-<div class="container" ng-view="">
+<div class="container content-wrap" ng-view="">
 
 </div>
 
 <script src="/js/jquery.js"></script>
-<script src="/js/angular.js"></script>
-<script src="/js/angular-route.js"></script>
-<script src="/js/angular-cookies.js"></script>
-<script src="/js/angular-sanitize.js"></script>
-<script src="/js/angular-resource.js"></script>
-<script src="/bootstrap/js/select2.min.js"></script>
+<script src="/js/angular.min.js"></script>
+<script src="/js/angular-animate.min.js"></script>
+<script src="/js/angular-route.min.js"></script>
+<script src="/js/angular-cookies.min.js"></script>
+<script src="/js/angular-sanitize.min.js"></script>
+<script src="/js/angular-resource.min.js"></script>
+<script src="/js/angular-touch.min.js"></script>
+<!--<script src="/bootstrap/js/ui-bootstrap-2.5.0.min.js"></script>-->
+<script src="/bootstrap/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<!--<script src="/bootstrap/js/bootstrap3-typeahead.js"></script>-->
+<!--<script src="/bootstrap/js/angular-bootstrap3-typeahead.js"></script>-->
 <script src="/scripts/app.js"></script>
 </body>
 </html>

@@ -2,15 +2,29 @@ var app = angular.module('oponygdanksapp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ngAnimate',
+    'ngTouch',
+    'ui.bootstrap'
 ]);
 
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
     $routeProvider.when('/', {
         templateUrl: 'views/customer/list.html',
         resolve: {
-            customers: function(Customer) {
-                return Customer.query().$promise.then(function(data){
+            customers: function (Customer) {
+                return Customer.query().$promise.then(function (data) {
+                    return data;
+                });
+            }
+        },
+        controller: 'CustomerListCtrl'
+    }).when('/customers', {
+        templateUrl: 'views/customer/list.html',
+        resolve: {
+            customers: function (Customer) {
+                return Customer.query().$promise.then(function (data) {
                     return data;
                 });
             }
@@ -19,11 +33,39 @@ app.config(function ($routeProvider) {
     }).when('/createCustomer', {
         templateUrl: 'views/customer/create.html',
         controller: 'CustomerCreateCtrl'
-    }).when('/createForm/:customerId', {
+    }).when('/forms', {
+        templateUrl: 'views/form/list.html',
+        controller: 'FormListCtrl'
+    }).when('/createForm', {
         templateUrl: 'views/form/create.html',
         controller: 'FormCreateCtrl'
+    }).when('/createCar/:customerId', {
+        templateUrl: 'views/car/create.html',
+        controller: 'CarCreateCtrl',
+        resolve: {
+            carBrands: function(CarBrand) {
+                return CarBrand.query().$promise.then(function (data) {
+                    return data;
+                });
+            },
+            carModels: function(CarModel) {
+                return CarModel.query().$promise.then(function (data) {
+                    return data;
+                });
+            },
+            tyreBrands: function(TyreBrand) {
+                return TyreBrand.query().$promise.then(function (data) {
+                    return data;
+                });
+            },
+            tyreSizes: function(TyreSize) {
+                return TyreSize.query().$promise.then(function (data) {
+                    return data;
+                });
+            }
+        }
     }).otherwise({
-        redirectTo: '/'
+            redirectTo: '/'
     })
 });
 
@@ -31,13 +73,14 @@ app.config(function ($routeProvider) {
 /* Customer */
 app.controller('CustomerListCtrl', ['$scope', 'Customer', 'customers', 'Form', function ($scope, Customer, customers, Form) {
 
+    $scope.forms = null;
     $scope.customers = customers;
+
     $scope.selectedIndex = -1;
 
-    $scope.select= function(i) {
-        $scope.selectedIndex = i;
-        $scope.getCustomersForms($scope.selectedIndex)
-
+    $scope.selectAndGetCustomersForms= function(selectedIndex) {
+        $scope.selectedIndex = selectedIndex;
+        $scope.getCustomersForms($scope.selectedIndex);
     };
 
     $scope.isCustomerSelected = function() {
@@ -58,8 +101,8 @@ app.controller('CustomerListCtrl', ['$scope', 'Customer', 'customers', 'Form', f
 
     $scope.getCustomersForms = function(idx) {
         var customer = $scope.customers[idx];
-        Form.get({'customerId': customer.id}, function() {
-
+        Form.query({'customerId': customer.id}).$promise.then(function(data) {
+            $scope.forms = data;
         })
     }
 
@@ -81,7 +124,86 @@ app.factory('Customer', ["$resource", function($resource) {
     return $resource('/api/v1/customers/:id', {id: '@id'}, {});
 }]);
 
+/* Car */
+app.controller('CarCreateCtrl', ['$scope', '$routeParams', '$location', 'Car', 'carBrands', 'carModels', 'tyreBrands', 'tyreSizes', function ($scope, $routeParams, $location, Car, carBrands, carModels, tyreBrands, tyreSizes) {
+
+    var emptyWheelSchema  = {
+        'carId': null,
+        'brandId': null,
+        'sizeId': null,
+        'quantity': null,
+        'rim': null,
+        'season': null,
+        'comments': null,
+        'isInUse': true
+    };
+
+    $scope.car = new Car();
+    $scope.car.wheels = [];
+    $scope.car.isInUse = true;
+    $scope.car.customerId = $routeParams.customerId;
+    $scope.showWheelTable = false;
+    $scope.tyreBrands = tyreBrands;
+    $scope.tyreSizes = tyreSizes;
+    $scope.carBrands = carBrands;
+    $scope.carModels = carModels;
+    $scope.rimTypes = ['brak', 'aluminiowa', 'stalowa'];
+    $scope.seasons = ['zima', 'lato'];
+
+    $scope.formatLabel = function(model, options) {
+        for (var i=0; i< options.length; i++) {
+            if (model === options[i].id) {
+                return options[i].name;
+            }
+        }
+    };
+
+    $scope.createCar = function() {
+        Car.save($scope.car, function() {
+            $location.path('/');
+        });
+    };
+
+    $scope.addWheel = function() {
+        $scope.showWheelTable = true;
+        var wheelTableLength = $scope.car.wheels.length;
+        if (wheelTableLength == 0 || !angular.equals($scope.car.wheels[wheelTableLength - 1], emptyWheelSchema)) {
+            var wheel = angular.copy(emptyWheelSchema);
+            wheel.carId = angular.isUndefined($scope.car.id) ? null : $scope.car.id;
+            $scope.car.wheels.push(wheel);
+        }
+    };
+}]);
+
+app.factory('Car', ["$resource", function($resource) {
+    return $resource('/api/v1/cars', {}, {});
+}]);
+
+/* CarBrand */
+app.factory('CarBrand', ["$resource", function($resource) {
+    return $resource('/api/v1/carBrands', {}, {});
+}]);
+
+/* CarModel */
+app.factory('CarModel', ["$resource", function($resource) {
+    return $resource('/api/v1/carModels/:id', {id: '@id'}, {});
+}]);
+
+/* TyreBrand */
+app.factory('TyreBrand', ["$resource", function($resource) {
+    return $resource('/api/v1/tyreBrands', {}, {});
+}]);
+
+/* TyreSize */
+app.factory('TyreSize', ["$resource", function($resource) {
+    return $resource('/api/v1/tyreSizes', {}, {});
+}]);
+
 /* Form */
+app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', function ($scope, $routeParams, $location, Form) {
+
+}]);
+
 app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', function ($scope, $routeParams, $location, Form) {
 
     $scope.form = new Form();
@@ -96,5 +218,5 @@ app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form',
 }]);
 
 app.factory('Form', ["$resource", function($resource) {
-    return $resource('/api/v1/forms/:id', {id: '@id'}, {});
+    return $resource('/api/v1/forms', {}, {});
 }]);

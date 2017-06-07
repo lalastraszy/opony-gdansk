@@ -31,8 +31,8 @@ public class CustomerService {
         return customers;
     }
 
-    public void createCustomer(String body) {
-        Customer customer = new Gson().fromJson(body, Customer.class);
+    public void createCustomer(Customer customer) {
+
         collection.insert(new BasicDBObject("firstName", customer.getFirstName()).
                 append("secondName", customer.getSecondName()).
                 append("email", customer.getEmail()).

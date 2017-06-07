@@ -1,42 +1,48 @@
 <div class="container">
     <form class="well input-form" name="inputform" ng-submit="createForm()">
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.make.$dirty && inputform.make.$valid, 'has-error': inputform.make.$dirty && inputform.make.$invalid}">
-            <label class="control-label" for="make">Marka pojazdu</label>
-            <input type="text" class="form-control" name="make" id="make" ng-model="form.make">
-        </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.model.$dirty && inputform.model.$valid, 'has-error': inputform.model.$dirty && inputform.model.$invalid}">
-            <label class="control-label" for="model">Model</label>
-            <input type="text" class="form-control" name="model" id="model" ng-model="form.model">
-        </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.registrationNumber.$dirty && inputform.registrationNumber.$valid, 'has-error': inputform.registrationNumber.$dirty && inputform.registrationNumber.$invalid}">
-            <label class="control-label" for="registrationNumber">Nr rejestracyjny</label>
-            <input type="text" class="form-control" name="registrationNumber" id="registrationNumber" ng-model="form.registrationNumber">
-        </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.year.$dirty && inputform.year.$valid, 'has-error': inputform.year.$dirty && inputform.year.$invalid}">
-            <label class="control-label" for="year">Rok produkcji</label>
-            <input type="text" class="form-control" name="year" id="year" ng-model="form.year">
-        </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.tires.$dirty && inputform.tires.$valid, 'has-error': inputform.tires.$dirty && inputform.tires.$invalid}">
-            <label class="control-label" for="tires">Opony</label>
-            <input type="text" class="form-control" name="tires" id="tires" ng-model="form.tires">
-        </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputform.rim.$dirty && inputform.rim.$valid, 'has-error': inputform.rim.$dirty && inputform.rim.$invalid}">
-            <label class="control-label" for="rim">Felga</label>
-            <input type="text" class="form-control" name="rim" id="rim" ng-model="form.rim">
-        </div>
-        <div class="form-group">
-            <label class="control-label">Wyważenie</label>
-            <div>
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default" ng-class="{'active': form.balancing}">
-                        <input type="radio" name="balancing" ng-value="true" ng-model="form.balancing" /> Tak
-                    </label>
-                    <label class="btn btn-default" ng-class="{'active': !form.balancing}">
-                        <input type="radio" name="balancing" ng-value="false" ng-model="form.balancing" /> Nie
-                    </label>
-                </div>
+        <div class="row">
+            <div class="col-sm-11 form-group has-feedback" ng-class="{'has-success': inputform.customer.$dirty && inputform.customer.$valid, 'has-error': inputform.customer.$dirty && inputform.customer.$invalid}">
+                <label class="control-label" for="customer">Klient</label>
+                <input type="text" class="form-control" name="customer" id="customer" ng-model="form.customer">
+            </div>
+            <div class="col-sm-1">
+                <a class="form-group btn btn-default align-bottom" href="#/createForm">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit" ng-disabled="inputform.$invalid || inputform.$pristine">Zapisz</button>
+        <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.model.$dirty && inputform.model.$valid, 'has-error': inputform.model.$dirty && inputform.model.$invalid}">-->
+            <!--<label class="control-label" for="model">Model</label>-->
+            <!--<input type="text" class="form-control" name="model" id="model" ng-model="form.model">-->
+        <!--</div>-->
+        <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.registrationNumber.$dirty && inputform.registrationNumber.$valid, 'has-error': inputform.registrationNumber.$dirty && inputform.registrationNumber.$invalid}">-->
+            <!--<label class="control-label" for="registrationNumber">Nr rejestracyjny</label>-->
+            <!--<input type="text" class="form-control" name="registrationNumber" id="registrationNumber" ng-model="form.registrationNumber">-->
+        <!--</div>-->
+        <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.year.$dirty && inputform.year.$valid, 'has-error': inputform.year.$dirty && inputform.year.$invalid}">-->
+            <!--<label class="control-label" for="year">Rok produkcji</label>-->
+            <!--<input type="text" class="form-control" name="year" id="year" ng-model="form.year">-->
+        <!--</div>-->
+        <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.tires.$dirty && inputform.tires.$valid, 'has-error': inputform.tires.$dirty && inputform.tires.$invalid}">-->
+            <!--<label class="control-label" for="tires">Opony</label>-->
+            <!--<input type="text" class="form-control" name="tires" id="tires" ng-model="form.tires">-->
+        <!--</div>-->
+        <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.rim.$dirty && inputform.rim.$valid, 'has-error': inputform.rim.$dirty && inputform.rim.$invalid}">-->
+            <!--<label class="control-label" for="rim">Felga</label>-->
+            <!--<input type="text" class="form-control" name="rim" id="rim" ng-model="form.rim">-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label class="control-label">Wyważenie</label>-->
+            <!--<div>-->
+                <!--<div class="btn-group" data-toggle="buttons">-->
+                    <!--<label class="btn btn-default" ng-class="{'active': form.balancing}">-->
+                        <!--<input type="radio" name="balancing" ng-value="true" ng-model="form.balancing" /> Tak-->
+                    <!--</label>-->
+                    <!--<label class="btn btn-default" ng-class="{'active': !form.balancing}">-->
+                        <!--<input type="radio" name="balancing" ng-value="false" ng-model="form.balancing" /> Nie-->
+                    <!--</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<button class="btn btn-primary" type="submit" ng-disabled="inputform.$invalid || inputform.$pristine">Zapisz</button>-->
     </form>
 </div>

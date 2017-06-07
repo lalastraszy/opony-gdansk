@@ -1,5 +1,6 @@
 package pl.oponygdansk.Customer;
 
+import com.google.gson.Gson;
 import pl.oponygdansk.JsonTransformer;
 import spark.Spark;
 
@@ -22,7 +23,8 @@ public class CustomerResource {
 
     private void setupEndpoint() {
         Spark.post(API_CONTEXT + "/customers", "application/json", (request, response) -> {
-            customerService.createCustomer(request.body());
+            Customer customer = new Gson().fromJson(request.body(), Customer.class);
+            customerService.createCustomer(customer);
             response.status(201);
             return response;
         }, new JsonTransformer());

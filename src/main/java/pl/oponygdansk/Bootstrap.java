@@ -1,10 +1,21 @@
 package pl.oponygdansk;
 
 import com.mongodb.*;
+import pl.oponygdansk.Car.CarResource;
+import pl.oponygdansk.Car.CarService;
+import pl.oponygdansk.CarBrand.CarBrandResource;
+import pl.oponygdansk.CarBrand.CarBrandService;
+import pl.oponygdansk.CarModel.CarModelResource;
+import pl.oponygdansk.CarModel.CarModelService;
 import pl.oponygdansk.Customer.CustomerResource;
 import pl.oponygdansk.Customer.CustomerService;
 import pl.oponygdansk.Form.FormResource;
 import pl.oponygdansk.Form.FormService;
+import pl.oponygdansk.TyreBrand.TyreBrandResource;
+import pl.oponygdansk.TyreBrand.TyreBrandService;
+import pl.oponygdansk.TyreSize.TyreSizeResource;
+import pl.oponygdansk.TyreSize.TyreSizeService;
+import pl.oponygdansk.Wheel.WheelService;
 
 import static spark.Spark.setIpAddress;
 import static spark.Spark.setPort;
@@ -25,6 +36,11 @@ public class Bootstrap {
         DB mongo = mongo();
         new FormResource(new FormService(mongo));
         new CustomerResource(new CustomerService(mongo));
+        new CarResource(new CarService(mongo), new WheelService(mongo));
+        new TyreBrandResource(new TyreBrandService(mongo));
+        new TyreSizeResource(new TyreSizeService(mongo));
+        new CarBrandResource(new CarBrandService(mongo));
+        new CarModelResource(new CarModelService(mongo));
     }
 
     private static DB mongo() throws Exception {
