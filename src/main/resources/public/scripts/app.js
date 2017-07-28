@@ -38,6 +38,13 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'FormListCtrl'
     }).when('/createForm', {
         templateUrl: 'views/form/create.html',
+        resolve: {
+            customers: function (Customer) {
+                return Customer.query().$promise.then(function (data) {
+                    return data;
+                });
+            }
+        },
         controller: 'FormCreateCtrl'
     }).when('/createCar/:customerId', {
         templateUrl: 'views/car/create.html',
@@ -78,7 +85,7 @@ app.controller('CustomerListCtrl', ['$scope', 'Customer', 'customers', 'Form', f
 
     $scope.selectedIndex = -1;
 
-    $scope.selectAndGetCustomersForms= function(selectedIndex) {
+    $scope.selectAndGetCustomersCars= function(selectedIndex) {
         $scope.selectedIndex = selectedIndex;
         $scope.getCustomersForms($scope.selectedIndex);
     };
@@ -101,10 +108,10 @@ app.controller('CustomerListCtrl', ['$scope', 'Customer', 'customers', 'Form', f
 
     $scope.getCustomersForms = function(idx) {
         var customer = $scope.customers[idx];
-        Form.query({'customerId': customer.id}).$promise.then(function(data) {
+        Form.query({'customerId': customer.id}).$promise.then(function (data) {
             $scope.forms = data;
         })
-    }
+    };
 
 }]);
 
@@ -204,17 +211,42 @@ app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', f
 
 }]);
 
-app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', function ($scope, $routeParams, $location, Form) {
+app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', 'Car', 'customers', function ($scope, $routeParams, $location, Form, Car, customers) {
 
     $scope.form = new Form();
     $scope.form.balancing = false;
     $scope.form.customerId = $routeParams.customerId;
+    $scope.customers = customers;
+    $scope.cars = [];
 
     $scope.createForm = function() {
         Form.save($scope.form, function() {
             $location.path('/');
         });
-    }
+    };
+
+    /* TODO: wydzielic czesc wpolsna dla formatLabel i przeniesc jej to sherowanego controllera */
+    $scope.formatCustomersLabel = function(model, options) {
+        for(var i=0; i< options.length; i++) {
+            if (model === options[i].id) {
+                return options[i].secondName + ' ' + options[i].firstName;
+            }
+        }
+    };
+
+    $scope.formatCarLabel = function(model, options) {
+        for(var i=0; i< options.length; i++) {
+            if (model === options[i].id) {
+                return options[i].registrationNumber;
+            }
+        }
+    };
+
+    $scope.getCustomersCars = function(customerId) {
+        Car.query({'customerId': customerId}).$promise.then(function (data) {
+            $scope.cars = data;
+        })
+    };
 }]);
 
 app.factory('Form', ["$resource", function($resource) {
