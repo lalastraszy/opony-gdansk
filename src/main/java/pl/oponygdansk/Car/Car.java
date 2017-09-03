@@ -2,6 +2,8 @@ package pl.oponygdansk.Car;
 
 import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
+import pl.oponygdansk.CarBrand.CarBrand;
+import pl.oponygdansk.CarModel.CarModel;
 import pl.oponygdansk.Wheel.Wheel;
 
 import java.util.Date;
@@ -15,7 +17,9 @@ public class Car {
     private String id;
     private String customerId;
     private String brandId;
+    private CarBrand brand;
     private String modelId;
+    private CarModel model;
     private String registrationNumber;
     private String year;
     private Date createdOn;
@@ -57,12 +61,28 @@ public class Car {
         this.brandId = brandId;
     }
 
+    public CarBrand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(CarBrand brand) {
+        this.brand = brand;
+    }
+
     public String getModelId() {
         return modelId;
     }
 
     public void setModelId(String modelId) {
         this.modelId = modelId;
+    }
+
+    public CarModel getModel() {
+        return model;
+    }
+
+    public void setModel(CarModel model) {
+        this.model = model;
     }
 
     public String getRegistrationNumber() {

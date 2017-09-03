@@ -38,4 +38,9 @@ public class CarModelService {
         }
         return models;
     }
+
+    public CarModel findOne(String id) {
+        DBObject dbObjects = collection.findOne(new BasicDBObject("_id", new ObjectId(id)));
+        return new CarModel((BasicDBObject) dbObjects);
+    }
 }

@@ -217,7 +217,25 @@ app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form',
     $scope.form.balancing = false;
     $scope.form.customerId = $routeParams.customerId;
     $scope.customers = customers;
+    $scope.customer = null;
     $scope.cars = [];
+    $scope.car = null;
+    $scope.showCustomersData = false;
+    $scope.showCarData = false;
+
+    $scope.$watch('customer', function(customer){
+        if (customer && customer.id) {
+            $scope.form.customerId = customer.id;
+            $scope.showCustomersData = true;
+        }
+    });
+
+    $scope.$watch('car', function(car){
+        if (car && car.id) {
+            $scope.form.carId = car.id;
+            $scope.showCarData = true;
+        }
+    });
 
     $scope.createForm = function() {
         Form.save($scope.form, function() {
@@ -225,18 +243,9 @@ app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form',
         });
     };
 
-    /* TODO: wydzielic czesc wpolsna dla formatLabel i przeniesc jej to sherowanego controllera */
-    $scope.formatCustomersLabel = function(model, options) {
-        for(var i=0; i< options.length; i++) {
-            if (model === options[i].id) {
-                return options[i].secondName + ' ' + options[i].firstName;
-            }
-        }
-    };
-
-    $scope.formatCarLabel = function(model, options) {
-        for(var i=0; i< options.length; i++) {
-            if (model === options[i].id) {
+    $scope.formatCarLabel = function(carId, options) {
+        for(var i=0; i < options.length; i++) {
+            if (carId === options[i].id) {
                 return options[i].registrationNumber;
             }
         }

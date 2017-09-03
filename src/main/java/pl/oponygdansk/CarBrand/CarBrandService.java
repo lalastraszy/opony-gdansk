@@ -1,6 +1,7 @@
 package pl.oponygdansk.CarBrand;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +27,10 @@ public class CarBrandService {
             tyreBrands.add(new CarBrand((BasicDBObject) dbObject));
         }
         return tyreBrands;
+    }
+
+    public CarBrand findOne(String id) {
+        DBObject dbObjects = collection.findOne(new BasicDBObject("_id", new ObjectId(id)));
+        return new CarBrand((BasicDBObject) dbObjects);
     }
 }

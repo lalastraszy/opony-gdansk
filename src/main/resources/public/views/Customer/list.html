@@ -27,8 +27,8 @@
         </tr>
     </thead>
     <tbody ng-repeat="customer in customers">
-        <tr ng-click="selectAndGetCustomersForms($index)" class="clickable-row"
-            ng-class="{'active' : selectedIndex == $index}">
+        <!--<tr ng-click="selectAndGetCustomersCars($index)" class="clickable-row"-->
+            <tr ng-class="{'active' : selectedIndex == $index}">
             <td>
                 {{customer.firstName}}
             </td>
@@ -75,30 +75,30 @@
 
             </th>
         </tr>
-        <tr ng-repeat="form in forms" ng-show="selectedIndex == $parent.$index">
-            <td>
-                {{form.make}}
-            </td>
-            <td>
-                {{form.model}}
-            </td>
-            <td>
-                {{form.registrationNumber}}
-            </td>
-            <td>
-                {{form.year}}
-            </td>
-            <td>
-                {{form.tires}}
-            </td>
-            <td>
-                {{form.rim}}
-            </td>
-            <td>
-                {{form.balancing}}
-            </td>
-            <td>
-                <span class="glyphicon glyphicon-print" aria-hidden="true" onclick="window.print()"></span>
-            </td>
-        </tr>
+        <!--<tr ng-repeat="form in forms" ng-show="selectedIndex == $parent.$index">-->
+            <!--<td>-->
+                <!--{{form.make}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.model}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.registrationNumber}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.year}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.tires}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.rim}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--{{form.balancing}}-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<span class="glyphicon glyphicon-print" aria-hidden="true" onclick="window.print()"></span>-->
+            <!--</td>-->
+        <!--</tr>-->
 </table>

@@ -1,7 +1,8 @@
 package pl.oponygdansk.Car;
 
 import com.mongodb.*;
-import org.bson.types.ObjectId;
+import pl.oponygdansk.CarBrand.CarBrandService;
+import pl.oponygdansk.CarModel.CarModelService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +15,14 @@ public class CarService {
 
     private final DB db;
     private final DBCollection collection;
+    private final CarModelService carModelService;
+    private final CarBrandService carBrandService;
 
     public CarService(DB db) {
         this.db = db;
         this.collection = db.getCollection("car");
+        this.carModelService = new CarModelService(db);
+        this.carBrandService = new CarBrandService(db);
     }
 
     public void createCar(Car car) {
@@ -37,7 +42,10 @@ public class CarService {
         DBCursor dbObjects = collection.find();
         while (dbObjects.hasNext()) {
             DBObject dbObject = dbObjects.next();
-            customers.add(new Car((BasicDBObject) dbObject));
+            Car car = new Car((BasicDBObject) dbObject);
+            car.setModel(carModelService.findOne(car.getModelId()));
+            car.setBrand(carBrandService.findOne(car.getBrandId()));
+            customers.add(car);
         }
         return customers;
     }
