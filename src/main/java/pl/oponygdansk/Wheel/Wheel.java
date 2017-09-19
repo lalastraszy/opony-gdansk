@@ -23,9 +23,9 @@ public class Wheel {
 
     public Wheel(BasicDBObject dbObject) {
         this.id = ((ObjectId) dbObject.get("_id")).toString();
-        this.carId = dbObject.getObjectId("carId").toString();
-        this.brandId = dbObject.getObjectId("brandId").toString();
-        this.sizeId = dbObject.getObjectId("sizeId").toString();
+        this.carId = dbObject.getString("carId");
+        this.brandId = dbObject.getString("brandId");
+        this.sizeId = dbObject.getString("sizeId");
         this.quantity = dbObject.getInt("quantity");
         this.rim = dbObject.getString("rim");
         this.season = dbObject.getString("season");

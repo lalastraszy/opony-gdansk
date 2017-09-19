@@ -36,7 +36,7 @@ public class Bootstrap {
         DB mongo = mongo();
         new FormResource(new FormService(mongo));
         new CustomerResource(new CustomerService(mongo));
-        new CarResource(new CarService(mongo), new WheelService(mongo));
+        new CarResource(new CarService(mongo));
         new TyreBrandResource(new TyreBrandService(mongo));
         new TyreSizeResource(new TyreSizeService(mongo));
         new CarBrandResource(new CarBrandService(mongo));

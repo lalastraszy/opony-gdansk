@@ -1,6 +1,7 @@
 <div class="container typeahead-demo">
     <form class="well input-form" name="inputcar" ng-submit="createCar()">
-        <div class="form-group has-feedback" ng-class="{'has-success': inputcar.brand.$dirty && inputcar.brand.$valid, 'has-error': inputcar.brand.$dirty && inputcar.brand.$invalid}">
+        <div class="form-group has-feedback"
+             ng-class="{'has-success': inputcar.brand.$dirty && inputcar.brand.$valid, 'has-error': inputcar.brand.$dirty && inputcar.brand.$invalid}">
             <label class="control-label" for="brand">Marka pojazdu</label>
             <input type="text" class="form-control" name="brand" id="brand" ng-model="car.brandId"
                    uib-typeahead="carBrand.id as carBrand.name for carBrand in carBrands | filter:{name:$viewValue}"
@@ -8,44 +9,42 @@
                    typeahead-popup-template-url="customPopupTemplate.html"
                    typeahead-on-select="">
         </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputcar.model.$dirty && inputcar.model.$valid, 'has-error': inputcar.model.$dirty && inputcar.model.$invalid}">
+        <div class="form-group has-feedback"
+             ng-class="{'has-success': inputcar.model.$dirty && inputcar.model.$valid, 'has-error': inputcar.model.$dirty && inputcar.model.$invalid}">
             <label class="control-label" for="model">Model</label>
             <input type="text" class="form-control" name="model" id="model" ng-model="car.modelId"
                    uib-typeahead="carModel.id as carModel.name for carModel in carModels | filter:{name:$viewValue}"
                    typeahead-input-formatter="formatLabel($model, carModels)"
                    typeahead-popup-template-url="customPopupTemplate.html">
         </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputcar.registrationNumber.$dirty && inputcar.registrationNumber.$valid, 'has-error': inputcar.registrationNumber.$dirty && inputcar.registrationNumber.$invalid}">
+        <div class="form-group has-feedback"
+             ng-class="{'has-success': inputcar.registrationNumber.$dirty && inputcar.registrationNumber.$valid, 'has-error': inputcar.registrationNumber.$dirty && inputcar.registrationNumber.$invalid}">
             <label class="control-label" for="registrationNumber">Nr rejestracyjny</label>
             <input type="text" class="form-control" name="registrationNumber" id="registrationNumber"
                    ng-pattern="/^([A-Z]){2,3}\s?(([A-Z]{1,2}[0-9]{1,3}([A-Z]{1,2})?)|([0-9]{1,2}[A-Z]{1,2}[0-9]{1,3})|([0-9]{1,4}[A-Z]{1,2})|([0-9]{1,5}))$/"
                    ng-model="car.registrationNumber">
         </div>
-        <div class="form-group has-feedback" ng-class="{'has-success': inputcar.year.$dirty && inputcar.year.$valid, 'has-error': inputcar.year.$dirty && inputcar.year.$invalid}">
+        <div class="form-group has-feedback"
+             ng-class="{'has-success': inputcar.year.$dirty && inputcar.year.$valid, 'has-error': inputcar.year.$dirty && inputcar.year.$invalid}">
             <label class="control-label" for="year">Rok produkcji</label>
-            <input type="text" class="form-control" name="year" id="year" ng-pattern="/^(19|20)\d{2}$/" ng-model="car.year">
+            <input type="text" class="form-control" name="year" id="year" ng-pattern="/^(19|20)\d{2}$/"
+                   ng-model="car.year">
         </div>
         <div class="form-group">
             <label class="control-label">W użyciu</label>
             <div>
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default" ng-class="{'active': car.isInUse}">
-                        <input type="radio" name="isInUse" ng-value="true" ng-model="car.isInUse" /> Tak
+                        <input type="radio" name="isInUse" ng-value="true" ng-model="car.isInUse"/> Tak
                     </label>
                     <label class="btn btn-default" ng-class="{'active': !car.isInUse}">
-                        <input type="radio" name="isInUse" ng-value="false" ng-model="car.isInUse" /> Nie
+                        <input type="radio" name="isInUse" ng-value="false" ng-model="car.isInUse"/> Nie
                     </label>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label">Koła</label>
-            <a class="btn btn-default pull-right" ng-click="showWheelTable=false">
-                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
-            <a class="btn btn-default pull-right" ng-click="addWheel()">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-            <div ng-include src="'/views/wheel/wheel.html'"></div>
-        </div>
-        <button class="btn btn-primary" type="submit" ng-disabled="inputcar.$invalid || inputcar.$pristine">Zapisz</button>
+        <div ng-include src="'/views/wheel/wheel.html'"></div>
+        <button class="btn btn-primary" type="submit" ng-disabled="inputcar.$invalid || inputcar.$pristine">Zapisz
+        </button>
     </form>
 </div>

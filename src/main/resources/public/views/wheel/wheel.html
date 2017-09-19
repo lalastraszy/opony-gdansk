@@ -1,63 +1,71 @@
-<table class="table wheelTable" ng-show="showWheelTable">
-    <thead class="thead-inverse">
-    <tr>
-        <th>Marka opony</th>
-        <th>Rozmiar</th>
-        <th>Ilość sztuk</th>
-        <th>Felga</th>
-        <th>Sezon</th>
-        <th>W użyciu</th>
-        <th>Uwagi</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="wheel in car.wheels track by $index">
-        <td>
-            <div class="form-group has-feedback" ng-class="{'has-success': inputcar.brand_{{$index}}.$dirty && inputcar.brand_{{$index}}.$valid, 'has-error': inputcar.brand_{{$index}}.$dirty && inputcar.brand_{{$index}}.$invalid}">
-                <input id="brand_{{$index}}" name="brand_{{$index}}"
-                       type="text" ng-model="wheel.brandId"
-                       uib-typeahead="tyreBrand.id as tyreBrand.name for tyreBrand in tyreBrands | filter:{name:$viewValue}"
-                       typeahead-input-formatter="formatLabel($model, tyreBrands)"
+<div class="form-group">
+    <label class="control-label">Koła</label>
+    <a class="btn btn-default pull-right" ng-click="showWheelTable=false">
+        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
+    <a class="btn btn-default pull-right" ng-click="addWheel()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+    <table class="table wheelTable" ng-show="showWheelTable">
+        <thead class="thead-inverse">
+        <tr>
+            <th>Marka opony</th>
+            <th>Rozmiar</th>
+            <th>Ilość sztuk</th>
+            <th>Felga</th>
+            <th>Sezon</th>
+            <th>W użyciu</th>
+            <th>Uwagi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="wheel in car.wheels track by $index">
+            <td>
+                <div class="form-group has-feedback"
+                     ng-class="{'has-success': inputcar.brand_{{$index}}.$dirty && inputcar.brand_{{$index}}.$valid, 'has-error': inputcar.brand_{{$index}}.$dirty && inputcar.brand_{{$index}}.$invalid}">
+                    <input id="brand_{{$index}}" name="brand_{{$index}}"
+                           type="text" ng-model="wheel.brandId"
+                           uib-typeahead="tyreBrand.id as tyreBrand.name for tyreBrand in tyreBrands | filter:{name:$viewValue}"
+                           typeahead-input-formatter="formatLabel($model, tyreBrands)"
+                           typeahead-popup-template-url="customPopupTemplate.html"
+                           class="form-control">
+                </div>
+            </td>
+            <td>
+                <input type="text" ng-model="wheel.sizeId"
+                       uib-typeahead="tyreSize.id as tyreSize.name for tyreSize in tyreSizes | filter:{name:$viewValue}"
+                       typeahead-input-formatter="formatLabel($model, tyreSizes)"
                        typeahead-popup-template-url="customPopupTemplate.html"
                        class="form-control">
-            </div>
-        </td>
-        <td>
-            <input type="text" ng-model="wheel.sizeId"
-                   uib-typeahead="tyreSize.id as tyreSize.name for tyreSize in tyreSizes | filter:{name:$viewValue}"
-                   typeahead-input-formatter="formatLabel($model, tyreSizes)"
-                   typeahead-popup-template-url="customPopupTemplate.html"
-                   class="form-control">
-        </td>
-        <td><input type="text" ng-model="wheel.quantity"
-                   ng-pattern="/^[0-9]*$/"
-                   class="form-control">
-        </td>
-        <td><input type="text" ng-model="wheel.rim"
-                   uib-typeahead="rimType for rimType in rimTypes | filter:$viewValue"
-                   typeahead-popup-template-url="customPopupTemplate.html"
-                   class="form-control">
-        </td>
-        <td><input type="text" ng-model="wheel.season"
-                   uib-typeahead="season for season in seasons | filter:$viewValue"
-                   typeahead-popup-template-url="customPopupTemplate.html"
-                   class="form-control">
-        </td>
-        <td>
-            <div>
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default" ng-class="{'active': wheel.isInUse}">
-                        <input type="radio" ng-value="true" ng-model="wheel.isInUse" /> Tak
-                    </label>
-                    <label class="btn btn-default" ng-class="{'active': !wheel.isInUse}">
-                        <input type="radio" ng-value="false" ng-model="wheel.isInUse" /> Nie
-                    </label>
+            </td>
+            <td><input type="text" ng-model="wheel.quantity"
+                       ng-pattern="/^[0-9]*$/"
+                       class="form-control">
+            </td>
+            <td><input type="text" ng-model="wheel.rim"
+                       uib-typeahead="rimType for rimType in rimTypes | filter:$viewValue"
+                       typeahead-popup-template-url="customPopupTemplate.html"
+                       class="form-control">
+            </td>
+            <td><input type="text" ng-model="wheel.season"
+                       uib-typeahead="season for season in seasons | filter:$viewValue"
+                       typeahead-popup-template-url="customPopupTemplate.html"
+                       class="form-control">
+            </td>
+            <td>
+                <div>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default" ng-class="{'active': wheel.isInUse}">
+                            <input type="radio" ng-value="true" ng-model="wheel.isInUse"/> Tak
+                        </label>
+                        <label class="btn btn-default" ng-class="{'active': !wheel.isInUse}">
+                            <input type="radio" ng-value="false" ng-model="wheel.isInUse"/> Nie
+                        </label>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td><input type="text" ng-model="wheel.comments"
-                   class="form-control">
-        </td>
-    </tr>
-    </tbody>
-</table>
+            </td>
+            <td><input type="text" ng-model="wheel.comments"
+                       class="form-control">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

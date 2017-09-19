@@ -28,7 +28,7 @@ public class Car {
 
     public Car(BasicDBObject dbObject) {
         this.id = ((ObjectId) dbObject.get("_id")).toString();
-        this.customerId = dbObject.get("customerId").toString();
+        this.customerId = dbObject.getString("customerId");
         this.brandId = dbObject.getString("brandId");
         this.modelId = dbObject.getString("modelId");
         this.registrationNumber = dbObject.getString("registrationNumber");

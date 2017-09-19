@@ -1,111 +1,118 @@
 <div class="container typeahead-demo">
     <form class="well input-form" name="inputform" ng-submit="createForm()">
-            <div class="form-group has-feedback" ng-class="{'has-success': inputform.customer.$dirty && inputform.customer.$valid, 'has-error': inputform.customer.$dirty && inputform.customer.$invalid}">
-                <div class="row">
-                    <div class="col-md-11">
-                        <label class="control-label" for="customer">Klient</label>
-                    </div>
+        <div class="form-group has-feedback"
+             ng-class="{'has-success': inputform.customer.$dirty && inputform.customer.$valid, 'has-error': inputform.customer.$dirty && inputform.customer.$invalid}">
+            <div class="row">
+                <div class="col-md-11">
+                    <label class="control-label" for="customer">Klient</label>
                 </div>
-                <div class="row">
-                    <div class="col-md-10">
-                        <input id="customer" name="customer"
-                               type="text" ng-model="customer"
-                               uib-typeahead="customer as customer.secondName + ' ' + customer.firstName for customer in customers | filter:{secondName:$viewValue}"
-                               typeahead-input-formatter="customer.firstName + ' ' + customer.secondName"
-                               typeahead-popup-template-url="customPopupTemplate.html"
-                               class="form-control"
-                               ng-change="getCustomersCars(customer.id)">
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn btn-default align-bottom" href="#/createCustomer">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
-                        <button type="button" class="btn btn-default" ng-click="showCustomersData = !showCustomersData">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </div>
-                <div ng-show="showCustomersData" class="row">
-                    <div class="col-md-12">
-                        <dl class="dl-horizontal">
-                            <dt>Imię</dt>
-                            <dd>{{customer.firstName}}</dd>
-                            <dt>Nazwisko</dt>
-                            <dd>{{customer.secondName}}</dd>
-                            <dt>Numer telefonu</dt>
-                            <dd>{{customer.phone}}</dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-11">
-                        <label class="control-label" for="car">Samochód</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-                        <input id="car" name="car"
-                               type="text" ng-model="car"
-                               uib-typeahead="car as car.registrationNumber for car in cars | filter:{registrationNumber:$viewValue}"
-                               typeahead-input-formatter="car.registrationNumber"
-                               typeahead-popup-template-url="customPopupTemplate.html"
-                               class="form-control">
-                    </div>
-                    <div class="col-md-2">
-                        <!-- TODO: set as disabled if !form.customerId -->
-                        <a class="btn btn-default align-bottom"  href="#/createCar/{{form.customerId}}">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
-                        <button type="button" class="btn btn-default" ng-click="showCarData = !showCarData">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </div>
-                <div ng-show="showCarData" class="row">
-                    <div class="col-md-12">
-                        <dl class="dl-horizontal">
-                            <dt>Model</dt>
-                            <dd>{{car.model.name}}</dd>
-                            <dt>Marka</dt>
-                            <dd>{{car.brand.name}}</dd>
-                        </dl>
-                    </div>
-                </div>
-                <!-- TODO: wyswietlic szczegolowe informacje o kolach -->
-                <div ng-include src="'/views/wheel/wheel.html'"></div>
             </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <input id="customer" name="customer"
+                           type="text" ng-model="customer"
+                           uib-typeahead="customer as customer.secondName + ' ' + customer.firstName for customer in customers | filter:{secondName:$viewValue}"
+                           typeahead-input-formatter="customer.firstName + ' ' + customer.secondName"
+                           typeahead-popup-template-url="customPopupTemplate.html"
+                           class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-default align-bottom" href="#/createCustomer">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>
+                    <button type="button" class="btn btn-default" ng-disabled=!form.customerId
+                            ng-click="showCustomersData = !showCustomersData">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            <div ng-show="showCustomersData" class="row">
+                <div class="col-md-12">
+                    <dl class="dl-horizontal">
+                        <dt>Imię</dt>
+                        <dd>{{customer.firstName}}</dd>
+                        <dt>Nazwisko</dt>
+                        <dd>{{customer.secondName}}</dd>
+                        <dt>Numer telefonu</dt>
+                        <dd>{{customer.phone}}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11">
+                    <label class="control-label" for="car">Samochód</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <input id="car" name="car"
+                           type="text" ng-model="car"
+                           uib-typeahead="car as car.registrationNumber for car in cars | filter:{registrationNumber:$viewValue}"
+                           typeahead-input-formatter="car.registrationNumber"
+                           typeahead-popup-template-url="customPopupTemplate.html"
+                           class="form-control"
+                           typeahead-on-select="setCustomer(car.customerId)">
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-default align-bottom"
+                       ng-disabled="!form.customerId"
+                       ng-href="{{!form.customerId ? '' : '#/createCar/'+form.customerId}}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>
+                    <button type="button" class="btn btn-default" ng-disabled=!form.carId
+                            ng-click="showCarData = !showCarData">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+            <div ng-show="showCarData" class="row">
+                <div class="col-md-12">
+                    <dl class="dl-horizontal">
+                        <dt>Model</dt>
+                        <dd>{{car.model.name}}</dd>
+                        <dt>Marka</dt>
+                        <dd>{{car.brand.name}}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-include src="'/views/wheel/wheel.html'"></div>
+                </div>
+            </div>
+        </div>
         <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.model.$dirty && inputform.model.$valid, 'has-error': inputform.model.$dirty && inputform.model.$invalid}">-->
-            <!--<label class="control-label" for="model">Model</label>-->
-            <!--<input type="text" class="form-control" name="model" id="model" ng-model="form.model">-->
+        <!--<label class="control-label" for="model">Model</label>-->
+        <!--<input type="text" class="form-control" name="model" id="model" ng-model="form.model">-->
         <!--</div>-->
         <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.registrationNumber.$dirty && inputform.registrationNumber.$valid, 'has-error': inputform.registrationNumber.$dirty && inputform.registrationNumber.$invalid}">-->
-            <!--<label class="control-label" for="registrationNumber">Nr rejestracyjny</label>-->
-            <!--<input type="text" class="form-control" name="registrationNumber" id="registrationNumber" ng-model="form.registrationNumber">-->
+        <!--<label class="control-label" for="registrationNumber">Nr rejestracyjny</label>-->
+        <!--<input type="text" class="form-control" name="registrationNumber" id="registrationNumber" ng-model="form.registrationNumber">-->
         <!--</div>-->
         <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.year.$dirty && inputform.year.$valid, 'has-error': inputform.year.$dirty && inputform.year.$invalid}">-->
-            <!--<label class="control-label" for="year">Rok produkcji</label>-->
-            <!--<input type="text" class="form-control" name="year" id="year" ng-model="form.year">-->
+        <!--<label class="control-label" for="year">Rok produkcji</label>-->
+        <!--<input type="text" class="form-control" name="year" id="year" ng-model="form.year">-->
         <!--</div>-->
         <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.tires.$dirty && inputform.tires.$valid, 'has-error': inputform.tires.$dirty && inputform.tires.$invalid}">-->
-            <!--<label class="control-label" for="tires">Opony</label>-->
-            <!--<input type="text" class="form-control" name="tires" id="tires" ng-model="form.tires">-->
+        <!--<label class="control-label" for="tires">Opony</label>-->
+        <!--<input type="text" class="form-control" name="tires" id="tires" ng-model="form.tires">-->
         <!--</div>-->
         <!--<div class="form-group has-feedback" ng-class="{'has-success': inputform.rim.$dirty && inputform.rim.$valid, 'has-error': inputform.rim.$dirty && inputform.rim.$invalid}">-->
-            <!--<label class="control-label" for="rim">Felga</label>-->
-            <!--<input type="text" class="form-control" name="rim" id="rim" ng-model="form.rim">-->
+        <!--<label class="control-label" for="rim">Felga</label>-->
+        <!--<input type="text" class="form-control" name="rim" id="rim" ng-model="form.rim">-->
         <!--</div>-->
         <!--<div class="form-group">-->
-            <!--<label class="control-label">Wyważenie</label>-->
-            <!--<div>-->
-                <!--<div class="btn-group" data-toggle="buttons">-->
-                    <!--<label class="btn btn-default" ng-class="{'active': form.balancing}">-->
-                        <!--<input type="radio" name="balancing" ng-value="true" ng-model="form.balancing" /> Tak-->
-                    <!--</label>-->
-                    <!--<label class="btn btn-default" ng-class="{'active': !form.balancing}">-->
-                        <!--<input type="radio" name="balancing" ng-value="false" ng-model="form.balancing" /> Nie-->
-                    <!--</label>-->
-                <!--</div>-->
-            <!--</div>-->
+        <!--<label class="control-label">Wyważenie</label>-->
+        <!--<div>-->
+        <!--<div class="btn-group" data-toggle="buttons">-->
+        <!--<label class="btn btn-default" ng-class="{'active': form.balancing}">-->
+        <!--<input type="radio" name="balancing" ng-value="true" ng-model="form.balancing" /> Tak-->
+        <!--</label>-->
+        <!--<label class="btn btn-default" ng-class="{'active': !form.balancing}">-->
+        <!--<input type="radio" name="balancing" ng-value="false" ng-model="form.balancing" /> Nie-->
+        <!--</label>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
         <!--<button class="btn btn-primary" type="submit" ng-disabled="inputform.$invalid || inputform.$pristine">Zapisz</button>-->
     </form>
