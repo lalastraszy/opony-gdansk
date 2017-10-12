@@ -24,9 +24,9 @@ public class CustomerResource {
     private void setupEndpoint() {
         Spark.post(API_CONTEXT + "/customers", "application/json", (request, response) -> {
             Customer customer = new Gson().fromJson(request.body(), Customer.class);
-            customerService.createCustomer(customer);
+            customer = customerService.createCustomer(customer);
             response.status(201);
-            return response;
+            return customer;
         }, new JsonTransformer());
 
         get(API_CONTEXT + "/customers/:id", "application/json", (request, response) ->

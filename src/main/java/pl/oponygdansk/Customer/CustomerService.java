@@ -31,15 +31,17 @@ public class CustomerService {
         return customers;
     }
 
-    public void createCustomer(Customer customer) {
+    public Customer createCustomer(Customer customer) {
 
-        collection.insert(new BasicDBObject("firstName", customer.getFirstName()).
+        BasicDBObject customerDbObject = new BasicDBObject("firstName", customer.getFirstName()).
                 append("secondName", customer.getSecondName()).
                 append("email", customer.getEmail()).
                 append("phone", customer.getPhone()).
                 append("business", customer.getBusiness()).
                 append("sex", customer.getSex()).
-                append("createOn", new Date()));
+                append("createOn", new Date());
+        collection.insert(customerDbObject);
+        return new Customer(customerDbObject);
     }
 
     public Customer find(String id) {

@@ -25,13 +25,7 @@ public class FormService {
     public void createForm(String body) {
         Form form = new Gson().fromJson(body, Form.class);
         collection.insert(new BasicDBObject("customerId", form.getCustomerId()).
-                append("make", form.getMake()).
-                append("model", form.getModel()).
-                append("registrationNumber", form.getRegistrationNumber()).
-                append("year", form.getYear()).
-                append("tires", form.getTires()).
-                append("rim", form.getRim()).
-                append("balancing", form.getBalancing()).
+                append("carId", form.getCarId()).
                 append("createOn", new Date()));
     }
 

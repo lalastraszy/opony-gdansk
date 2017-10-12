@@ -2,7 +2,7 @@
     <label class="control-label">Koła</label>
     <a class="btn btn-default pull-right" ng-click="showWheelTable=false">
         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
-    <a class="btn btn-default pull-right" ng-click="addWheel()">
+    <a class="btn btn-default pull-right" ng-click="addWheel()" ng-disabled="!car">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
     <table class="table wheelTable" ng-show="showWheelTable">
         <thead class="thead-inverse">

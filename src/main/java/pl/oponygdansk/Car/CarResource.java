@@ -23,9 +23,9 @@ public class CarResource {
     private void setupEndpoint() {
         Spark.post(API_CONTEXT + "/cars", "application/json", (request, response) -> {
             Car car = new Gson().fromJson(request.body(), Car.class);
-            carService.createCar(car);
+            car = carService.createCar(car);
             response.status(201);
-            return response;
+            return car;
         }, new JsonTransformer());
 
         get(API_CONTEXT + "/cars", "application/json", (request, response) ->
