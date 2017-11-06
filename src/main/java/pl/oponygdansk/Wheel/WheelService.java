@@ -20,15 +20,17 @@ public class WheelService {
         this.collection = db.getCollection("wheel");
     }
 
-    public void createWheels(String carId, List<Wheel> wheels) {
+    public List<Wheel> createWheels(String carId, List<Wheel> wheels) {
+        List<Wheel> results = new ArrayList<>();
         for (Wheel wheel : wheels) {
             wheel.setCreatedOn(new Date());
             wheel.setCarId(carId);
-            createWheel(wheel);
+            results.add(createWheel(wheel));
         }
+        return results;
     }
 
-    public void createWheel(Wheel wheel) {
+    private Wheel createWheel(Wheel wheel) {
         BasicDBObject wheelDbObject = new BasicDBObject("carId", wheel.getCarId()).
                 append("brandId", wheel.getBrandId()).
                 append("sizeId", wheel.getSizeId()).
@@ -40,6 +42,7 @@ public class WheelService {
                 append("createOn", wheel.getCreatedOn());
         collection.insert(wheelDbObject);
         wheel.setId((wheelDbObject.get("_id")).toString());
+        return wheel;
     }
 
     public List<Wheel> findAllByCarId(String carId) {

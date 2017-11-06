@@ -2,6 +2,8 @@ package pl.oponygdansk.Form;
 
 import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
+import pl.oponygdansk.Car.Car;
+import pl.oponygdansk.Customer.Customer;
 
 import java.util.Date;
 
@@ -12,7 +14,9 @@ public class Form {
 
     private String id;
     private String customerId;
+    private Customer customer;
     private String carId;
+    private Car car;
     private Date createdOn;
 
     public Form(BasicDBObject dbObject) {
@@ -34,6 +38,14 @@ public class Form {
         this.customerId = customerId;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public String getCarId() {
         return carId;
     }
@@ -44,5 +56,13 @@ public class Form {
 
     public Date getCreatedOn() {
         return createdOn;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
     }
 }

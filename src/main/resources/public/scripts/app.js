@@ -35,6 +35,13 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'CustomerCreateCtrl'
     }).when('/forms', {
         templateUrl: 'views/form/list.html',
+        resolve: {
+            forms: function (Form) {
+                return Form.query().$promise.then(function (data) {
+                    return data;
+                });
+            }
+        },
         controller: 'FormListCtrl'
     }).when('/createForm', {
         templateUrl: 'views/form/create.html',

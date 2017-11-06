@@ -1,6 +1,7 @@
 package pl.oponygdansk.Car;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import pl.oponygdansk.CarBrand.CarBrandService;
 import pl.oponygdansk.CarModel.CarModelService;
 import pl.oponygdansk.Wheel.Wheel;
@@ -41,11 +42,20 @@ public class CarService {
                 append("inUse", car.getInUse());
         collection.insert(carDbObject);
         String id = carDbObject.get("_id").toString();
-        wheelService.createWheels(id, car.getWheels());
+        List<Wheel> wheels = wheelService.createWheels(id, car.getWheels());
         car = new Car(carDbObject);
         car.setModel(carModelService.findOne(car.getModelId()));
         car.setBrand(carBrandService.findOne(car.getBrandId()));
-        car.setWheels(new ArrayList<>());
+        car.setWheels(wheels);
+        return car;
+    }
+
+    public Car find(String id) {
+        DBObject dbObject = collection.findOne(new BasicDBObject().append("_id", new ObjectId(id)));
+        Car car = new Car((BasicDBObject) dbObject);
+        car.setModel(carModelService.findOne(car.getModelId()));
+        car.setBrand(carBrandService.findOne(car.getBrandId()));
+        car.setWheels(wheelService.findAllByCarId(car.getId()));
         return car;
     }
 

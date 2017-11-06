@@ -1,5 +1,8 @@
 /* Form */
-app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', function ($scope, $routeParams, $location, Form) {
+app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', 'forms', function ($scope, $routeParams, $location, Form, forms) {
+
+    $scope.forms = forms;
+    $scope.searchQuery = "";
 
 }]);
 
@@ -49,7 +52,10 @@ app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form',
 
     $scope.createForm = function () {
         Form.save($scope.form, function () {
-            $location.path('/');
+            $scope.form = null;
+            CustomerSvc.setCustomer(null);
+            CarSvc.setCar(null);
+            window.history.back();
         });
     };
 

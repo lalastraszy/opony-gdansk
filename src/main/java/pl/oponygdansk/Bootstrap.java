@@ -15,7 +15,6 @@ import pl.oponygdansk.TyreBrand.TyreBrandResource;
 import pl.oponygdansk.TyreBrand.TyreBrandService;
 import pl.oponygdansk.TyreSize.TyreSizeResource;
 import pl.oponygdansk.TyreSize.TyreSizeService;
-import pl.oponygdansk.Wheel.WheelService;
 
 import static spark.Spark.setIpAddress;
 import static spark.Spark.setPort;
