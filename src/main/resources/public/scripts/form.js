@@ -1,8 +1,21 @@
 /* Form */
-app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', 'forms', function ($scope, $routeParams, $location, Form, forms) {
+app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', 'CustomerSvc', 'CarSvc', 'forms', function ($scope, $routeParams, $location, Form, CustomerSvc, CarSvc, forms) {
 
     $scope.forms = forms;
     $scope.searchQuery = "";
+
+    $scope.editForm = function (id) {
+        $location.path('#/createForm/'+form.id);
+    };
+
+    function find_form(id) {
+        for(var i = 0; i < forms.length; i++){
+            if (forms[i].id == id) {
+                return forms[i];
+            }
+        }
+        return null;
+    }
 
 }]);
 

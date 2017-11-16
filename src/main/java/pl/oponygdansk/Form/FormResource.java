@@ -30,8 +30,12 @@ public class FormResource {
 //        get(API_CONTEXT + "/forms", "application/json", (request, response) ->
 //                formService.findAllForCustomer(request.queryParams("customerId")), new JsonTransformer());
 
-        get(API_CONTEXT + "/forms", "application/json", (request, response) ->
-                formService.findAll(), new JsonTransformer());
+        get(API_CONTEXT + "/forms", "application/json", (request, response) -> {
+            if (request.queryParams("id") != null) {
+                return formService.find(request.queryParams("id"));
+            }
+            return formService.findAll();
+        }, new JsonTransformer());
 
 //        delete(API_CONTEXT + "/forms/:id", "application/json", (request, response) -> {
 //            String id = request.params(":id");

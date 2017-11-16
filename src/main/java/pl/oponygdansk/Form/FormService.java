@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import org.bson.types.ObjectId;
 import pl.oponygdansk.Car.CarService;
 import pl.oponygdansk.Customer.CustomerService;
 
@@ -46,6 +47,13 @@ public class FormService {
             forms.add(form);
         }
         return forms;
+    }
+
+    public Form find(String id) {
+        Form form = new Form((BasicDBObject) collection.findOne(new BasicDBObject("_id", new ObjectId(id))));
+        form.setCustomer(customerService.find(form.getCustomerId()));
+        form.setCar(carService.find(form.getCarId()));
+        return form;
     }
 
 //    public List<Form> findAllForCustomer(String customerId) {

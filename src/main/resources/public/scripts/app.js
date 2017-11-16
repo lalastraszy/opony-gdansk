@@ -74,6 +74,26 @@ app.config(function ($routeProvider, $locationProvider) {
             }
         },
         controller: 'FormCreateCtrl'
+    }).when('/editForm/:formId', {
+        templateUrl: 'views/form/create.html',
+        resolve: {
+            form: ['$route', 'Form', function ($route, Form) {
+                return Form.query({"id": $route.current.params.formId}).$promise.then(function (data) {
+                    return data;
+                })
+            }],
+            tyreBrands: function (TyreBrand) {
+                return TyreBrand.query().$promise.then(function (data) {
+                    return data;
+                });
+            },
+            tyreSizes: function (TyreSize) {
+                return TyreSize.query().$promise.then(function (data) {
+                    return data;
+                });
+            }
+        },
+        controller: 'FormCreateCtrl'
     }).when('/createCar/:customerId', {
         templateUrl: 'views/car/create.html',
         controller: 'CarCreateCtrl',
