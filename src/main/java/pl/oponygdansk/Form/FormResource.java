@@ -3,6 +3,9 @@ package pl.oponygdansk.Form;
 import pl.oponygdansk.JsonTransformer;
 import spark.Spark;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static spark.Spark.get;
 import static spark.Spark.delete;
 
@@ -31,10 +34,13 @@ public class FormResource {
 //                formService.findAllForCustomer(request.queryParams("customerId")), new JsonTransformer());
 
         get(API_CONTEXT + "/forms", "application/json", (request, response) -> {
+            List<Form> forms = new ArrayList<>();
             if (request.queryParams("id") != null) {
-                return formService.find(request.queryParams("id"));
+                forms.add(formService.find(request.queryParams("id")));
+            } else {
+                forms = formService.findAll();
             }
-            return formService.findAll();
+            return forms;
         }, new JsonTransformer());
 
 //        delete(API_CONTEXT + "/forms/:id", "application/json", (request, response) -> {

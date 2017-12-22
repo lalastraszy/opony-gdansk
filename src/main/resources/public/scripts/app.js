@@ -66,22 +66,24 @@ app.config(function ($routeProvider, $locationProvider) {
                     return data;
                 });
             },
-            customer: function (CustomerSvc) {
-                return CustomerSvc.getCustomer();
-            },
-            car: function (CarSvc) {
-                return CarSvc.getCar();
+            form: function (Form) {
+                return new Form();
             }
         },
         controller: 'FormCreateCtrl'
     }).when('/editForm/:formId', {
         templateUrl: 'views/form/create.html',
         resolve: {
-            form: ['$route', 'Form', function ($route, Form) {
-                return Form.query({"id": $route.current.params.formId}).$promise.then(function (data) {
+            customers: function (Customer) {
+                return Customer.query().$promise.then(function (data) {
                     return data;
-                })
-            }],
+                });
+            },
+            cars: function (Car) {
+                return Car.query().$promise.then(function (data) {
+                    return data
+                });
+            },
             tyreBrands: function (TyreBrand) {
                 return TyreBrand.query().$promise.then(function (data) {
                     return data;
@@ -90,6 +92,14 @@ app.config(function ($routeProvider, $locationProvider) {
             tyreSizes: function (TyreSize) {
                 return TyreSize.query().$promise.then(function (data) {
                     return data;
+                });
+            },
+            form: function ($route, Form, CustomerSvc, CarSvc) {
+                return Form.query({"id": $route.current.params.formId}).$promise.then(function (data) {
+                    form = data[0];
+                    CustomerSvc.setCustomer(form.customer);
+                    CarSvc.setCar(form.car);
+                    return form;
                 });
             }
         },

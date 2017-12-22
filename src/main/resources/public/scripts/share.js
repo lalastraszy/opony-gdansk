@@ -1,6 +1,6 @@
-app.service("CustomerSvc", function () {
+app.service("CustomerSvc", ['Customer', function ( Customer) {
 
-    var customer = null;
+    var customer = new Customer();
 
     return {
         getCustomer: function () {
@@ -11,9 +11,9 @@ app.service("CustomerSvc", function () {
         }
     };
 
-});
+}]);
 
-app.service("CarSvc", function () {
+app.service("CarSvc", ['Car', function (Car) {
 
     var car = null;
 
@@ -26,7 +26,7 @@ app.service("CarSvc", function () {
         }
     };
 
-});
+}]);
 
 app.service("WheelSvc", function () {
     var wheelSchema = {

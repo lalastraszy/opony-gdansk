@@ -52,7 +52,7 @@ app.factory('CarBrand', ["$resource", function ($resource) {
 
 /* CarModel */
 app.factory('CarModel', ["$resource", function ($resource) {
-    return $resource('/api/v1/carModels/:id', {id: '@id'}, {});
+    return $resource('/api/v1/carModels', {}, {});
 }]);
 
 /* TyreBrand */

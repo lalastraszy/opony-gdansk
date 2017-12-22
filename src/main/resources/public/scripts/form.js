@@ -4,29 +4,16 @@ app.controller('FormListCtrl', ['$scope', '$routeParams', '$location', 'Form', '
     $scope.forms = forms;
     $scope.searchQuery = "";
 
-    $scope.editForm = function (id) {
-        $location.path('#/createForm/'+form.id);
-    };
-
-    function find_form(id) {
-        for(var i = 0; i < forms.length; i++){
-            if (forms[i].id == id) {
-                return forms[i];
-            }
-        }
-        return null;
-    }
-
 }]);
 
-app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', 'Car', 'CustomerSvc', 'CarSvc', 'WheelSvc', 'customers', 'cars', 'tyreBrands', 'tyreSizes', 'customer', 'car', function ($scope, $routeParams, $location, Form, Car, CustomerSvc, CarSvc, WheelSvc, customers, cars, tyreBrands, tyreSizes, customer, car) {
+app.controller('FormCreateCtrl', ['$scope', '$routeParams', '$location', 'Form', 'Car', 'CustomerSvc', 'CarSvc', 'WheelSvc', 'customers', 'cars', 'tyreBrands', 'tyreSizes', 'form', function ($scope, $routeParams, $location, Form, Car, CustomerSvc, CarSvc, WheelSvc, customers, cars, tyreBrands, tyreSizes, form) {
 
-    $scope.form = new Form();
-    $scope.form.customerId = null;
+    $scope.form = form;
+    $scope.customer = CustomerSvc.getCustomer();
+    $scope.car = CarSvc.getCar();
+
     $scope.customers = customers;
-    $scope.customer = customer;
     $scope.cars = cars;
-    $scope.car = car;
     $scope.showCustomersData = false;
     $scope.showCarData = false;
     $scope.showWheelTable = true;
