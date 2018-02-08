@@ -1,5 +1,6 @@
 package pl.oponygdansk.Form;
 
+import com.google.gson.Gson;
 import pl.oponygdansk.JsonTransformer;
 import spark.Spark;
 
@@ -25,9 +26,14 @@ public class FormResource {
 
     private void setupEndpoint() {
         Spark.post(API_CONTEXT + "/forms", "application/json", (request, response) -> {
-            formService.createForm(request.body());
+            Form form = new Gson().fromJson(request.body(), Form.class);
+            if (form.getId() == null) {
+                form = formService.createForm(form);
+            } else {
+                form = formService.updateForm(form);
+            }
             response.status(201);
-            return response;
+            return form;
         }, new JsonTransformer());
 
 //        get(API_CONTEXT + "/forms", "application/json", (request, response) ->

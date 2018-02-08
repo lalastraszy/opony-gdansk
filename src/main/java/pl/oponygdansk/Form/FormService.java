@@ -1,12 +1,12 @@
 package pl.oponygdansk.Form;
 
-import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import org.bson.types.ObjectId;
 import pl.oponygdansk.Car.CarService;
 import pl.oponygdansk.Customer.CustomerService;
+import pl.oponygdansk.Wheel.WheelService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,19 +21,33 @@ public class FormService {
     private final DBCollection collection;
     private final CustomerService customerService;
     private final CarService carService;
+    private final WheelService wheelService;
 
     public FormService(DB db) {
         this.db = db;
         this.collection = db.getCollection("form");
         this.customerService = new CustomerService(db);
         this.carService = new CarService(db);
+        this.wheelService = new WheelService(db);
     }
 
-    public void createForm(String body) {
-        Form form = new Gson().fromJson(body, Form.class);
-        collection.insert(new BasicDBObject("customerId", form.getCustomerId()).
+    public Form createForm(Form form) {
+        BasicDBObject formDbObject = new BasicDBObject("customerId", form.getCustomerId()).
                 append("carId", form.getCarId()).
-                append("createOn", new Date()));
+                append("createOn", new Date());
+        collection.insert(formDbObject);
+        return new Form(formDbObject);
+    }
+
+    public Form updateForm(Form form) {
+        BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(form.getId()));
+        BasicDBObject formDbObject = new BasicDBObject().append("customerId", form.getCustomerId()).
+                append("carId", form.getCarId()).
+                append("modifyOn", new Date());
+        BasicDBObject updateQuery = new BasicDBObject().append("$set", formDbObject);
+        collection.update(searchQuery, updateQuery);
+        wheelService.updateWheels(form.getCar().getId(), form.getCar().getWheels());
+        return this.find(form.getId());
     }
 
     public List<Form> findAll() {

@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by magdalena on 19/02/2017.
@@ -20,6 +21,7 @@ public class Wheel {
     private String comments;
     private boolean isInUse;
     private Date createdOn;
+    private Date modifiedOn;
 
     public Wheel(BasicDBObject dbObject) {
         this.id = ((ObjectId) dbObject.get("_id")).toString();
@@ -32,6 +34,7 @@ public class Wheel {
         this.comments = dbObject.getString("comments");
         this.isInUse = dbObject.getBoolean("inUse");
         this.createdOn = dbObject.getDate("createdOn");
+        this.modifiedOn = dbObject.getDate("modifiedOn");
     }
 
     public String getId() {
@@ -112,5 +115,27 @@ public class Wheel {
 
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public Date getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(Date modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Wheel)) return false;
+        Wheel wheel = (Wheel) o;
+        return Objects.equals(getId(), wheel.getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId());
     }
 }

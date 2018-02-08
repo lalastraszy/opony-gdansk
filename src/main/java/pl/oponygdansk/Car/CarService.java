@@ -42,7 +42,7 @@ public class CarService {
                 append("inUse", car.getInUse());
         collection.insert(carDbObject);
         String id = carDbObject.get("_id").toString();
-        List<Wheel> wheels = wheelService.createWheels(id, car.getWheels());
+        List<Wheel> wheels = wheelService.create(id, car.getWheels());
         car = new Car(carDbObject);
         car.setModel(carModelService.findOne(car.getModelId()));
         car.setBrand(carBrandService.findOne(car.getBrandId()));
